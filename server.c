@@ -6,7 +6,7 @@
 /*   By: jose <jose@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 11:55:52 by jose              #+#    #+#             */
-/*   Updated: 2023/01/15 22:06:04 by jose             ###   ########.fr       */
+/*   Updated: 2023/01/15 22:50:57 by jose             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ void	handler(int sig)
 
 int	main(int ac, char **av)
 {
-	(void)ac;
-	(void)av;
 	struct sigaction	sa;
 
 	sa.sa_handler = &handler;
 	sa.sa_flags = 0;
+	(void)ac;
+	(void)av;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	printf("PID %d\n", getpid());

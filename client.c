@@ -6,7 +6,7 @@
 /*   By: jose <jose@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 12:55:20 by jose              #+#    #+#             */
-/*   Updated: 2023/01/15 22:16:20 by jose             ###   ########.fr       */
+/*   Updated: 2023/01/15 22:50:04 by jose             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_send_char(int pid, unsigned char str)
 	}
 }
 
-void	ft_send_chaine (int pid, char *str)
+void	ft_send_chaine(int pid, char *str)
 {
 	int	already_sent;
 
