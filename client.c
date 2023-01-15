@@ -6,7 +6,7 @@
 /*   By: jose <jose@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 12:55:20 by jose              #+#    #+#             */
-/*   Updated: 2023/01/15 14:56:00 by jose             ###   ########.fr       */
+/*   Updated: 2023/01/15 22:16:20 by jose             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,54 @@
 void	ft_error(int error)
 {
 	if (error == BAD_PARAMETERS)
-		write (1, "BAD_PARAMETERS\n", ft_strlent("BAD_PARAMETERS\n"));
+		write (1, "BAD_PARAMETERS\n", 15);
 	if (error == BAD_PID)
-		write (1, "BAD_PID\n", ft_strlent("BAD_PID\n"));
+		write (1, "BAD_PID\n", 8);
 	exit (1);
 }
 
-void	handler(int sig)
+void	ft_send_char(int pid, unsigned char str)
 {
-	if (sig == SIGINT)
-		write (1, "I won't die!\n", 13);
+	int	i;
+	int	ret;
+
+	i = 7;
+	ret = BAD_PID;
+	while (i > -1)
+	{
+		if (str & (1 << i))
+			ret = kill (pid, SIGUSR2);
+		else
+			ret = kill (pid, SIGUSR1);
+		if (ret == BAD_PID)
+			ft_error(BAD_PID);
+		i--;
+		usleep(500);
+	}
+}
+
+void	ft_send_chaine (int pid, char *str)
+{
+	int	already_sent;
+
+	already_sent = 0;
+	while (str && *str)
+	{
+		ft_send_char(pid, *str);
+		str++;
+		already_sent = 1;
+	}
+	if (already_sent)
+		ft_send_char(pid, '\n');
+	if (!*str && !already_sent)
+		ft_send_char(pid, *str);
 }
 
 int	main(int ac, char **av)
 {
 	if (ac != 3)
 		ft_error(BAD_PARAMETERS);
-	
-	/*struct sigaction	sa;
-
-	sa.sa_handler = &handler;
-	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);
-	while (1)
-	{
-		printf("ton PID est %d\n", getpid());
-		sleep(1);
-	}*/
+	ft_send_chaine(ft_atoi(av[1]), av[2]);
+	write (1, "Message sent with sucess !\n", 27);
 	return (0);
 }

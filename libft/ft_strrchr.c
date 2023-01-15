@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jose <jose@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/14 11:56:43 by jose              #+#    #+#             */
-/*   Updated: 2023/01/15 17:21:43 by jose             ###   ########.fr       */
+/*   Created: 2022/11/10 12:42:48 by jralph            #+#    #+#             */
+/*   Updated: 2023/01/04 12:38:19 by jose             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#include "libft.h"
 
-# include "libft/libft.h"
+char	*ft_strrchr(const char *s, int c)
+{
+	size_t	i;
 
-# include <stdio.h>
-# include <signal.h>
-# include <unistd.h>
-# include <stdlib.h>
-
-# ifndef BAD_PARAMETERS
-#  define BAD_PARAMETERS 1
-# endif
-
-# ifndef BAD_PID
-#  define BAD_PID -1
-# endif
-
-#endif
+	i = ft_strlen(s);
+	while (i > 0)
+	{
+		if (s[i] == (char)c)
+			return ((char *)s + i);
+		i--;
+	}
+	if (*s == (char)c)
+		return ((char *)s);
+	return (0);
+}

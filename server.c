@@ -6,7 +6,7 @@
 /*   By: jose <jose@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 11:55:52 by jose              #+#    #+#             */
-/*   Updated: 2023/01/15 12:54:21 by jose             ###   ########.fr       */
+/*   Updated: 2023/01/15 22:06:04 by jose             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,26 @@
 
 void	handler(int sig)
 {
-	if (sig == SIGUSR1)
-		printf("on a attrape le SIGURS1\n");
-	else
-		printf("on a attrape le SIGURS2\n");
+	static int				count = 0;
+	static unsigned char	a = 0;
+
+	if (sig == SIGUSR2)
+		a = a | (1 << (7 - count));
+	count++;
+	if (count == 8)
+	{
+		if (a != 0)
+		{
+			write (1, &a, 1);
+			a = 0;
+			count = 0;
+		}
+		else
+		{
+			write (1, "Server has been closed !\n", 25);
+			exit (0);
+		}
+	}
 }
 
 int	main(int ac, char **av)
