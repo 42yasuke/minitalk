@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jralph <jralph@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jose <jose@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/10 09:59:25 by jralph            #+#    #+#             */
-/*   Updated: 2023/01/10 16:55:40 by jralph           ###   ########.fr       */
+/*   Created: 2023/01/14 11:55:52 by jose              #+#    #+#             */
+/*   Updated: 2023/01/15 12:54:21 by jose             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <signal.h>
-#include <unistd.h>
+#include "minitalk.h"
 
 void	handler(int sig)
 {
-	if (sig == SIGINT)
-		write (1, "I won't die!\n", 13);
+	if (sig == SIGUSR1)
+		printf("on a attrape le SIGURS1\n");
+	else
+		printf("on a attrape le SIGURS2\n");
 }
 
-int	main(void)
+int	main(int ac, char **av)
 {
+	(void)ac;
+	(void)av;
 	struct sigaction	sa;
 
 	sa.sa_handler = &handler;
 	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
+	printf("PID %d\n", getpid());
 	while (1)
-	{
-		printf("ton PID est %d\n", getpid());
-		sleep(1);
-	}
-	return (0);
+		pause();
 }
