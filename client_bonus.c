@@ -6,11 +6,13 @@
 /*   By: jralph <jralph@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 04:08:35 by jralph            #+#    #+#             */
-/*   Updated: 2023/01/19 04:18:24 by jralph           ###   ########.fr       */
+/*   Updated: 2023/01/19 17:52:21 by jralph           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+
+static int	g_is_bit_received;
 
 void	ft_error(int error)
 {
@@ -24,7 +26,10 @@ void	ft_error(int error)
 void	handler(int sig)
 {
 	if (sig == SIGUSR1)
+	{
 		write (1, "bit received ...\n", 17);
+		g_is_bit_received = 1;
+	}
 }
 
 void	ft_send_char(int pid, unsigned char str)
@@ -40,14 +45,16 @@ void	ft_send_char(int pid, unsigned char str)
 	ret = BAD_PID;
 	while (i > -1)
 	{
+		g_is_bit_received = 0;
 		if (str & (1 << i))
 			ret = kill (pid, SIGUSR2);
 		else
 			ret = kill (pid, SIGUSR1);
 		if (ret == BAD_PID)
 			ft_error(BAD_PID);
+		while (!g_is_bit_received)
+			;
 		i--;
-		pause();
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: jralph <jralph@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 04:09:06 by jralph            #+#    #+#             */
-/*   Updated: 2023/01/19 04:09:19 by jralph           ###   ########.fr       */
+/*   Updated: 2023/01/19 17:54:47 by jralph           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	handler(int sig, siginfo_t *info, void *ptr)
 		a = 0;
 		count = 0;
 	}
-	usleep(100);
 	kill(info->si_pid, SIGUSR1);
 }
 
